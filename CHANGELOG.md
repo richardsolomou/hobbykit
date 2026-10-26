@@ -1,5 +1,11 @@
 # hobbykit
 
+## 0.19.0
+
+### Minor Changes
+
+- 7e1f545: Give every generator its own crawlable page with a title, description, canonical link, structured data, a link preview image of its own, and a Markdown guide, and publish `robots.txt`, `sitemap.xml`, and `llms.txt`. Unknown addresses now return a 404, and every response carries basic security headers.
+
 ## 0.18.1
 
 ### Patch Changes

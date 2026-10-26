@@ -37,3 +37,7 @@ e2e *args:
 
 e2e-run *args:
     pnpm test:e2e:run -- {{ args }}
+
+social-cards:
+    pnpm build
+    pnpm exec tsx scripts/socialCards.ts

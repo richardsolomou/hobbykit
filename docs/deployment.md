@@ -31,6 +31,7 @@ After the first production deploy:
 2. Change the footprint and verify the triangle count changes before inspecting the updated model.
 3. Export one STL and one 3MF, then load both in a slicer or mesh checker.
 4. Confirm the favicon, HobbyKit title, font, and Manifold WASM asset load from the custom domain.
+5. Confirm `/robots.txt`, `/sitemap.xml`, and `/llms.txt` return their own content rather than the app, `/holders` carries its own title, canonical link, and preview image, `/holders.md` returns the holder guide, and an unknown address returns a 404.
 
 The export check matters because the preview uses a lighter mesh while downloads rebuild circular geometry at a 1µm chord tolerance.
 

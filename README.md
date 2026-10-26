@@ -28,33 +28,27 @@ Built-in presets cover common Games Workshop, The Old World, Kings of War, and h
 4. **Check both faces** in the live 3D view, where dimensions, the export name, and the part's weight as solid PLA stay visible. Holders and spray trays show the total for every part. A slicer's walls and infill will use less filament than that.
 5. **Save an STL or 3MF** built at a 1µm chord tolerance for circular geometry.
 
-Rebasing an army usually means several sizes at once. Add the current size to the batch as often as you need it, adjust each quantity, and download them together: STLs arrive as one archive with one file per size and its quantity in the name, while a 3MF keeps one object per size and lays out every copy across as many build plates as it needs. Every size in a batch shares the current base settings and follows its own magnet count. The batch is saved with your other settings.
+The [bases guide](docs/generators/bases.md) covers footprints, labels, magnets, and batch export, and the [flying stems guide](docs/generators/stems.md) covers stems.
 
 ## Gridfinity holders 📦
 
-Add miniature groups, choose the available rows and columns, and HobbyKit packs matching slots into printable Gridfinity modules. Groups can use standard or custom round, oval, pill, rectangle, and hex footprints. Miniature and holder-edge spacing are independently adjustable, with the edge spacing defaulting to half the miniature spacing.
-
-Modules export as separate STL files in one archive or separate build plates in one 3MF. You can combine groups into one holder, engrave sizes in each slot or once per module, and add matching magnet pockets. Requests that do not fit report the omitted models without blocking the rest of the plan, and groups with spare slots show how many more fit without adding or resizing a module.
+Add miniature groups, choose the available rows and columns, and HobbyKit packs matching slots into printable Gridfinity modules. Read the [holders guide](docs/generators/holders.md).
 
 ## Movement trays 🛡️
 
-Move a rank-and-file unit for The Old World, Kings of War, or historical games as one. Pick a rectangular or round base size, set the columns and ranks, and HobbyKit cuts a recess for each base with your chosen clearance and depth. Rectangular bases share one recess so ranks stay in base contact; round bases each get their own slot. Adjust the floor thickness and rim width, and add magnet pockets under every slot that match the base magnet pattern so magnetised bases hold. The tray prints flat with its slots facing up, so nothing needs supports.
+Move a rank-and-file unit for The Old World, Kings of War, or historical games as one. Read the [movement trays guide](docs/generators/movement-trays.md).
 
 ## Spray trays 🎨
 
-Build a low-profile magnetic platform for batch priming and spray painting. Its top-opening pockets form an interleaved grid, with a second offset pocket between every four primary positions. The default 50mm centre spacing leaves clearance between two 32mm bases in neighbouring primary and diagonal positions. Adjust the rows, columns, centre spacing, and edge margin; the extra diagonal positions suit mixed base sizes while the flat, rimless surface keeps every base edge exposed to spray.
-
-Choose a round, oval-barrel, flared, or pistol grip, then adjust its width, length, and lean angle. The default grip is 100mm long, and optional end softening and shallow ribs further tune the feel without adding supports. A shallow engraved `+` extends beyond the configured grip footprint on the tray underside, keeping the centre visible while the flat end is positioned for glue. STL downloads contain separate tray and handle files, while 3MF downloads put each support-free part on its own build plate.
+Build a low-profile magnetic platform for batch priming and spray painting. Read the [spray trays guide](docs/generators/spray-tray.md).
 
 ## Paint racks 🖌️
 
-Stand your paints in stepped rows so every label shows. Each bottle gets a hex cell capped by a flat deck: a round pocket above the deck holds a Citadel pot, label wrap and all, and a bore through the deck holds a 24.5mm dropper bottle such as Vallejo, AK or Army Painter on a ledge, with a hole beneath to push a stuck bottle out. Everything under the decks is hollow, with walls shared between neighbouring cells, so the rack prints without infill. Set the pocket depth to zero for flat decks that pots stand on, which prints faster.
-
-Build the rack from left to right and grow it from either side as your collection does: modules of any width, and corners that turn the rack 90° round an inside corner. Pieces already printed never change when you add another, and each piece downloads on its own. Where a corner's two runs meet, cells too narrow for a bottle are capped and filled with brush holes, each a tube standing on the table so a brush rests on its end. Set the hole size to clear the widest part of your brushes' handles, such as a triangular grip. Add an end at either side to step the rack's sides back with the rows, holding a few more bottles. The preview shows the whole loadout assembled, and every piece downloads separately: STLs arrive as one archive numbered left to right, and a 3MF puts each piece on its own build plate. Neighbouring modules interlock along their zigzag edges with a small clearance. Cell size, deck heights, pockets, seats, and wall thickness apply to the whole loadout. Every piece prints upright with supports off; each deck bridges a few millimetres between the walls and its bore.
+Stand your paints in stepped rows so every label shows. Read the [paint racks guide](docs/generators/paint-racks.md).
 
 ## Tokens 🪙
 
-Make a round, square, or hex token for objectives, Oath of Moment, or anything else a game tracks. Every shape is sized across its flats: a round's diameter, a square's width, and a hex's flat-to-flat distance, so a 25.4mm hex fills a one-inch hex grid cell. Squares can round their corners. Type a word, a phrase, or a number and it wraps and scales to fill the face; drop in an image and its dark areas are traced into a silhouette, above the text when the token has both. Adjust the threshold or use the light areas instead to suit the artwork, then set the size, thickness, relief height, and top edge. Positive relief raises the text and image; negative relief engraves them into the face so tokens stack flat. Zero relief leaves a plain body. Engraving always leaves at least 1mm of material beneath the artwork, and reducing the body thickness limits the depth to keep that floor. Tokens print flat on the table face with the artwork facing up, so nothing needs supports.
+Make a round, square, or hex token for objectives, Oath of Moment, or anything else a game tracks. Read the [tokens guide](docs/generators/tokens.md).
 
 ## Designed for one job 🎯
 

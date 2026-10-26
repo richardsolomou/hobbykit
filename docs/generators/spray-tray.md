@@ -1,0 +1,5 @@
+# Magnetic spray painting tray generator
+
+Build a low-profile magnetic platform for batch priming and spray painting. Its top-opening pockets form an interleaved grid, with a second offset pocket between every four primary positions. The default 50mm centre spacing leaves clearance between two 32mm bases in neighbouring primary and diagonal positions. Adjust the rows, columns, centre spacing, and edge margin; the extra diagonal positions suit mixed base sizes while the flat, rimless surface keeps every base edge exposed to spray.
+
+Choose a round, oval-barrel, flared, or pistol grip, then adjust its width, length, and lean angle. The default grip is 100mm long, and optional end softening and shallow ribs further tune the feel without adding supports. A shallow engraved `+` extends beyond the configured grip footprint on the tray underside, keeping the centre visible while the flat end is positioned for glue. STL downloads contain separate tray and handle files, while 3MF downloads put each support-free part on its own build plate.

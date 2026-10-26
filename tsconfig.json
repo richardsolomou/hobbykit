@@ -4,6 +4,7 @@
   "compilerOptions": {
     "noUncheckedIndexedAccess": false,
     "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
     "paths": {
       "@/*": ["./src/*"]
     }

@@ -8,6 +8,7 @@ Read [README.md](README.md) first for what the app does and what the controls me
 - `just dev` — Vite on port 5173.
 - `just test` — Vitest over `src/**/*.test.ts`. Geometry tests run in Node against the same builder the browser uses, so they need no browser.
 - `just e2e` builds and runs Playwright; `just e2e-run` reuses the current `dist/`. Install the browser once with `just e2e-install`.
+- `just social-cards` — rebuilds and retakes every page's link preview image in `public/og`.
 - `just samples [round|oval|painting|movement|rack]` — writes preset base STLs, the default painting tray, square and round movement trays, or the default paint rack for inspection outside the browser.
 - Lint and format are oxlint + oxfmt, not ESLint/Prettier. Warnings are denied in CI.
 
@@ -87,3 +88,6 @@ Read [README.md](README.md) first for what the app does and what the controls me
 ## Deployment
 
 Static assets only, described by `wrangler.jsonc`. Cloudflare builds the repo with `pnpm build` and serves `dist/`. There is no backend, no database and no secret — the generator, the exporters and the font all run in the browser. Manifold's WASM is the single-threaded build, so no cross-origin isolation headers are required.
+
+- **Every generator route is a prerendered file.** The `hobbykit:seo` plugin in `vite.config.ts` writes one HTML file per entry in `src/lib/pages.ts`, each with its own head, structured data and a readable summary inside `#root` that React replaces on mount, plus `404.html`, `robots.txt`, `sitemap.xml`, `llms.txt`, and a Markdown copy of each generator's guide from `docs/generators`, linked from its page as the `text/markdown` alternate. The README links those guides rather than repeating them, and a test holds every guide's heading to its page title. `wrangler.jsonc` serves `404.html` for anything else, so a new generator needs an entry in `PAGES` or its address returns 404. Each page's link preview is a 1200×630 screenshot of its default model in `public/og`; run `just social-cards` when the app's look or a default changes.
+- `public/_headers` sets the security headers Cloudflare sends with every asset. There is no Content-Security-Policy: PostHog's ingest host comes from the build environment and its extensions load from its own asset hosts, so a policy cannot be checked locally and a wrong one silently drops analytics.

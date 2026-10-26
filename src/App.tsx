@@ -49,6 +49,7 @@ import { batchBaseConfig, batchName } from '@/lib/batch'
 import { useExport } from '@/lib/useExport'
 import { useGenerator } from '@/lib/useGenerator'
 import { useMediaQuery } from '@/lib/useMediaQuery'
+import { PAGES } from '@/lib/pages'
 import posthog from '@/lib/posthog'
 import { shareLink } from '@/lib/shareLink'
 import {
@@ -62,18 +63,9 @@ import {
   type WorkspaceState,
 } from '@/lib/workspace'
 
-const MODELS = [
-  { value: 'base' as const, part: 'base' as const, label: 'Bases', mobileLabel: 'Bases', href: '/' },
-  { value: 'holder' as const, part: 'holder' as const, label: 'Holders', mobileLabel: 'Holders', href: '/holders' },
-  { value: 'movement' as const, part: 'movementTray' as const, label: 'Movement trays', mobileLabel: 'Movement', href: '/movement-trays' },
-  { value: 'painting' as const, part: 'paintingTray' as const, label: 'Spray tray', mobileLabel: 'Spray', href: '/spray-tray' },
-  { value: 'rack' as const, part: 'paintRack' as const, label: 'Paint racks', mobileLabel: 'Paints', href: '/paint-racks' },
-  { value: 'stem' as const, part: 'stem' as const, label: 'Stems', mobileLabel: 'Stems', href: '/stems' },
-  { value: 'token' as const, part: 'token' as const, label: 'Tokens', mobileLabel: 'Tokens', href: '/tokens' },
-]
-type Generator = (typeof MODELS)[number]['value']
+type Generator = (typeof PAGES)[number]['value']
 
-const modelForPath = (): Generator => MODELS.find((item) => item.href === window.location.pathname)?.value ?? 'base'
+const modelForPath = (): Generator => PAGES.find((item) => item.href === window.location.pathname)?.value ?? 'base'
 const modelLabel = (model: Generator) =>
   model === 'base'
     ? 'Base'
@@ -98,7 +90,7 @@ export function App({ sharedSetup }: { sharedSetup?: unknown }) {
     const shared = sharedSetup === undefined ? undefined : applyWorkspaceSetup(saved, sharedSetup)
     return {
       workspace: shared?.workspace ?? saved,
-      model: shared ? MODELS.find((item) => item.part === shared.part)!.value : modelForPath(),
+      model: shared ? PAGES.find((item) => item.part === shared.part)!.value : modelForPath(),
     }
   })
   const [workspace, setWorkspaceState] = useState(opened.workspace)
@@ -143,6 +135,7 @@ export function App({ sharedSetup }: { sharedSetup?: unknown }) {
   })
   const [customMovementSize, setCustomMovementSize] = useState(() => !isStandardMovementSize(workspace.movementTray))
   const [model, setModel] = useState<Generator>(opened.model)
+  const page = PAGES.find((item) => item.value === model)!
   const [tokenImageError, setTokenImageError] = useState<string>()
   const addTokenImage = async (file: File) => {
     setTokenImageError(undefined)
@@ -189,7 +182,7 @@ export function App({ sharedSetup }: { sharedSetup?: unknown }) {
   const { preview, grams, error } = useGenerator(partConfig)
 
   useEffect(() => {
-    const href = MODELS.find((item) => item.value === opened.model)!.href
+    const href = PAGES.find((item) => item.value === opened.model)!.href
     if (window.location.pathname !== href) window.history.replaceState(null, '', href + window.location.search + window.location.hash)
   }, [opened])
 
@@ -200,8 +193,7 @@ export function App({ sharedSetup }: { sharedSetup?: unknown }) {
     return () => window.clearTimeout(timer)
   }, [shareNotice])
   const copyLink = async () => {
-    const item = MODELS.find((entry) => entry.value === model)!
-    const { url, imageOmitted } = shareLink(`${window.location.origin}${item.href}`, workspace, item.part)
+    const { url, imageOmitted } = shareLink(`${window.location.origin}${page.href}`, workspace, page.part)
     try {
       await navigator.clipboard.writeText(url)
       posthog.capture('share_link_copied', { generator: model, image_omitted: imageOmitted })
@@ -218,35 +210,20 @@ export function App({ sharedSetup }: { sharedSetup?: unknown }) {
   }, [])
 
   useEffect(() => {
-    document.title = `HobbyKit — ${
-      model === 'base'
-        ? 'Bases'
-        : model === 'holder'
-          ? 'Holders'
-          : model === 'movement'
-            ? 'Movement Trays'
-            : model === 'painting'
-              ? 'Spray Trays'
-              : model === 'rack'
-                ? 'Paint Racks'
-                : model === 'stem'
-                  ? 'Flying Stems'
-                  : 'Tokens'
-    }`
-  }, [model])
+    document.title = `${page.title} — HobbyKit`
+  }, [page])
 
   useEffect(() => saveWorkspace(window.localStorage, workspace), [workspace])
 
   const generators = useRef<HTMLElement>(null)
   useEffect(() => {
-    const href = MODELS.find((item) => item.value === model)!.href
-    generators.current?.querySelector(`[href="${href}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
-  }, [model])
+    generators.current?.querySelector(`[href="${page.href}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+  }, [page])
 
   const changeModel = (next: Generator) => {
     if (next === model) return
     posthog.capture('generator_selected', { generator: next })
-    window.history.pushState(null, '', MODELS.find((item) => item.value === next)!.href)
+    window.history.pushState(null, '', PAGES.find((item) => item.value === next)!.href)
     setModel(next)
   }
 
@@ -512,12 +489,14 @@ export function App({ sharedSetup }: { sharedSetup?: unknown }) {
               </SheetContent>
             </Sheet>
           )}
-          <h1 className="shrink-0 py-3 text-sm font-medium tracking-[0.18em] uppercase max-sm:hidden">
+          {/* Names the generator for search engines and screen readers, which read the page after it mounts. */}
+          <h1 className="shrink-0 py-3 text-sm font-medium tracking-[0.18em] uppercase max-sm:sr-only">
             Hobby<span className="text-measure">Kit</span>
+            <span className="sr-only"> — {page.title}</span>
           </h1>
           {/* Scrolls sideways on a phone rather than running under the export buttons. */}
           <nav ref={generators} aria-label="Generators" className="flex min-w-0 self-stretch overflow-x-auto [scrollbar-width:none]">
-            {MODELS.map((item) => (
+            {PAGES.map((item) => (
               <a
                 key={item.value}
                 href={item.href}

@@ -66,7 +66,7 @@ test.beforeEach(async ({ page }) => {
 test('builds the default base on load', { tag: '@ci' }, async ({ page }) => {
   const panel = page.getByRole('complementary', { name: 'Base settings' }).locator('xpath=ancestor::*[@data-slot="scroll-area"]')
   await expect.poll(async () => (await panel.boundingBox())?.width).toBe(344.25)
-  await expect(page.getByRole('heading', { name: 'HobbyKit' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'HobbyKit — Magnetised miniature base generator' })).toBeVisible()
   await expect(across(page)).toHaveText('Ø32')
   await expect(tall(page)).toHaveText('4')
   await expect(footer(page)).toContainText('base-round-32mm')
@@ -883,10 +883,18 @@ test('frames every slot in a tall holder', async ({ page }) => {
   await expect(across(page)).toBeInViewport()
 })
 
+test('serves the crawler files rather than the app', { tag: '@ci' }, async ({ request }) => {
+  for (const path of ['/robots.txt', '/sitemap.xml', '/llms.txt', '/holders.md']) {
+    const response = await request.get(path)
+    expect(response.headers()['content-type'], path).not.toContain('text/html')
+  }
+})
+
 test('loads the Gridfinity holder directly from its route', { tag: '@ci' }, async ({ page }) => {
   await page.goto('/holders')
   await settled(page)
-  await expect(page).toHaveTitle('HobbyKit — Holders')
+  await expect(page).toHaveTitle('Gridfinity miniature holder generator — HobbyKit')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('HobbyKit — Gridfinity miniature holder generator')
   await expect(page.getByRole('link', { name: 'Holders' })).toHaveAttribute('aria-current', 'page')
   await expect(footer(page)).toContainText('holder-1x4-5x-round-32mm')
 })

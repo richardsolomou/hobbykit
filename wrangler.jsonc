@@ -1,11 +1,12 @@
 // Static assets only — the generator runs entirely in the browser, so there is no
 // Worker script to run in front of it. Cloudflare builds this repo with
-// `pnpm build` and serves ./dist.
+// `pnpm build` and serves ./dist. Each generator has its own prerendered page, so
+// any other address gets 404.html with a real 404 status.
 {
   "name": "hobbykit",
   "compatibility_date": "2026-06-01",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "single-page-application",
+    "not_found_handling": "404-page",
   },
 }
